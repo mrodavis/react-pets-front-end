@@ -12,11 +12,17 @@ const PetForm = (props) => {
   const handleChange = (evt) => {
     setFormData({ ...formData, [evt.target.name]: evt.target.value });
   };
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    props.handleAddPet(formData);
+    // Right now, if you add a pet and submit the form,
+    // the data entered will stay on the page. We'll fix this soon.
+  };
 
   // And finally, the form itself.
   return (
     <div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <label htmlFor="name"> Name </label>
         <input
           id="name"
