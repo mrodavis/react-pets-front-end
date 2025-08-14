@@ -3,12 +3,21 @@ import * as petService from './services/petService.js';
 
 import PetList from './components/PetList/PetList';
 import PetDetail from './components/PetDetail/PetDetail';
+import PetForm from './components/PetForm/PetForm';
 
 const App = () => {
   const [pets, setPets] = useState([]);
   const [selected, setSelected] = useState(null);
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
+  const handleSelect = (pet) => {
+    setSelected(pet);
+    setIsFormOpen(false);
+  };
 
+  const handleFormView = () => {
+    setIsFormOpen(!isFormOpen);
+  }
 
   // Create a new useEffect
   useEffect(() => {
@@ -28,14 +37,21 @@ const App = () => {
     fetchPets();
   }, []);
 
-  const handleSelect = (pet) => {
-    setSelected(pet);
-  };
+
 
   return (
     <>
-      <PetList pets={pets} handleSelect={handleSelect}/>
+      <PetList 
+      pets={pets} 
+      handleSelect={handleSelect}
+      handleFormView={handleFormView}
+      isFormOpen={isFormOpen}
+      />
+      {isFormOpen ? (
+      <PetForm />
+      ) : (
       <PetDetail selected={selected} />
+      )}
     </>
   );
 };
